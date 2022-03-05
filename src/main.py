@@ -1,12 +1,14 @@
 import discord
 
-client = discord.Client()
+intents = discord.Intents.default()
+intents.members = True
+intents.presences = True
+client = discord.Client(intents=intents)
 
 
 @client.event
 def on_ready():
     print("Bulone is ready.")
-
 
 @client.event
 def on_message(msg):
