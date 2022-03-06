@@ -17,6 +17,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import asyncio
 import discord
 import conv
 from context import Context
@@ -46,6 +47,7 @@ async def on_message(msg: discord.Message):
         await ctx.init(client, (VOICE_ID if voice else TEXT_ID), voice)
 
         await msg.channel.send("Starting Bulone on " + ("voice" if voice else "text"))
+        await asyncio.sleep(4)
         await conv.start(ctx)
 
 

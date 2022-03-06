@@ -18,6 +18,7 @@
 #
 
 import random
+import discord
 from context import Context
 
 
@@ -29,6 +30,46 @@ async def readwrite(ctx: Context):
         await ctx.send("Read and", 3)
     await ctx.send("Write", 4)
 
+
+async def greetings(ctx: Context):
+    await ctx.send("Hi everyone. Please form three straight lines in front of the door.", 8)
+    for mem in ctx.chn.members:
+        if mem.status != discord.Status.offline and mem.name != "BuloneBot":
+            greet = random.choice(ctx.json("greetings"))
+            await ctx.send(f"{greet} {mem.name}", random.uniform(1, 3))
+
+    for i in range(3):
+        await ctx.send(f"Line {i+1}, come on in.", random.uniform(1, 3))
+
+
+async def schedule(ctx: Context):
+    activities = ctx.json("activities")
+    homework = ctx.json("homework")
+
+    agenda = "Here's what we're going to be doing today:\n"
+    agenda += "* We will be having some time for writing prompts and the turn and talk time like usual.\n"
+    for act in random.sample(activities, random.randint(1, len(activities))):
+        agenda += "* We will " + act + "\n"
+    await ctx.send(agenda, 12)
+
+    hw = "Homework for today is:\n"
+    hw += "* Finish the writing prompt from today.\n"
+    for h in random.sample(homework, random.randint(1, len(homework))):
+        hw += "* " + h + "\n"
+    await ctx.send(hw, 12)
+
+    if random.randint(0, 1) == 0:
+        await ctx.send("Nod your head if you understand.", 4)
+    else:
+        await ctx.send("Summarize in your own words to the people next to you what I just said.", 4)
+
+
 async def start(ctx: Context):
-    await ctx.send("BuloneBot: The Bulone experience on Discord.", 4)
-    await readwrite(ctx)
+    #await ctx.send("BuloneBot: The Bulone experience on Discord.", 4)
+
+    #await greetings(ctx)
+    #await readwrite(ctx)
+    await schedule(ctx)
+    #await readwrite(ctx)
+
+    await ctx.send("Done", 1)

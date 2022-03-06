@@ -17,9 +17,13 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import os
+import json
 import asyncio
 import discord
 from typing import Union
+
+PARENT = os.path.dirname(os.path.realpath(__file__))
 
 
 class Context:
@@ -47,3 +51,8 @@ class Context:
         else:
             await self.chn.send(msg)
         await asyncio.sleep(delay)
+
+    def json(self, name):
+        path = os.path.join(PARENT, "data", name+".json")
+        with open(path, "r") as fp:
+            return json.load(fp)
