@@ -18,6 +18,11 @@
 #
 
 import discord
+import conv
+from context import Context
+
+TEXT_ID = 932788451932242012  # segfault/devnull
+VOICE_ID = 949806823114956821  # segfault/test
 
 intents = discord.Intents.default()
 intents.members = True
@@ -26,12 +31,22 @@ client = discord.Client(intents=intents)
 
 
 @client.event
-def on_ready():
+async def on_ready():
     print("Bulone is ready.")
 
 @client.event
-def on_message(msg):
-    pass
+async def on_message(msg: discord.Message):
+    if msg.author == client.user:
+        return
+
+    content = msg.content.lower().strip()
+    if content.startswith("bulonebot"):
+        voice = "voice" in content
+        ctx = Context()
+        await ctx.init(client, (VOICE_ID if voice else TEXT_ID), voice)
+
+        await msg.channel.send("Starting Bulone on " + ("voice" if voice else "text"))
+        await conv.start(ctx)
 
 
 with open("token.txt", "r") as fp:
