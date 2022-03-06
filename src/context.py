@@ -21,6 +21,7 @@ import os
 import json
 import asyncio
 import discord
+from subprocess import DEVNULL, Popen, PIPE
 from typing import Union
 
 PARENT = os.path.dirname(os.path.realpath(__file__))
@@ -47,10 +48,27 @@ class Context:
 
     async def send(self, msg: str, delay: float = 0):
         if self.voice:
-            raise NotImplementedError("ur bad")
+            msg = msg.replace(":", ",").replace("_", "").replace("*", "")
+            args = ["espeak", "--stdout", "-s", "160"]
+            with open("/tmp/bulone.wav", "wb") as fp:
+                proc = Popen(args, stdin=PIPE, stdout=fp, stderr=DEVNULL)
+                proc.stdin.write(msg.encode())
+                proc.stdin.flush()
+                proc.stdin.close()
+                proc.wait()
+
+            await self.play_audio("/tmp/bulone.wav")
+
         else:
             await self.chn.send(msg)
+
         await asyncio.sleep(delay)
+
+    async def play_audio(self, path):
+        audio = discord.FFmpegPCMAudio(executable="/usr/bin/ffmpeg", source="/tmp/bulone.wav")
+        self.voice_conn.play(audio)
+        while self.voice_conn.is_playing():
+            await asyncio.sleep(0.6)
 
     def json(self, name):
         path = os.path.join(PARENT, "data", name+".json")

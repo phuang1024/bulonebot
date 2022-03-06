@@ -49,6 +49,7 @@ async def on_message(msg: discord.Message):
         await msg.channel.send("Starting Bulone on " + ("voice" if voice else "text"))
         await asyncio.sleep(4)
         await conv.start(ctx)
+        await ctx.close()
 
 
 with open("token.txt", "r") as fp:
