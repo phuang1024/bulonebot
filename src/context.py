@@ -59,11 +59,11 @@ class Context:
                 proc.wait()
 
             await self.play_audio("/tmp/bulone.wav")
+            await asyncio.sleep(min(delay, 1))
 
         else:
             await self.chn.send(msg)
-
-        await asyncio.sleep(delay)
+            await asyncio.sleep(delay)
 
     async def play_audio(self, path):
         audio = discord.FFmpegPCMAudio(executable="/usr/bin/ffmpeg", source=path)
