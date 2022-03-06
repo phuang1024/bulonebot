@@ -95,13 +95,13 @@ async def wprompt(ctx: Context):
 
 
 async def start(ctx: Context):
-    #await ctx.send("BuloneBot: The Bulone experience on Discord.", 4)
+    await ctx.send("BuloneBot: The Bulone experience on Discord.", 4)
 
-    #await greetings(ctx)
-    #await readwrite(ctx)
-    #await schedule(ctx)
-    #await readwrite(ctx)
+    await greetings(ctx)
+    await readwrite(ctx)
+    await schedule(ctx)
+    await readwrite(ctx)
     await wprompt(ctx)
-    #await readwrite(ctx)
+    await readwrite(ctx)
 
     await ctx.send("Done", 1)
