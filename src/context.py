@@ -59,7 +59,7 @@ class Context:
                 proc.wait()
 
             await self.play_audio("/tmp/bulone.wav")
-            await asyncio.sleep(min(delay, 1))
+            await asyncio.sleep(min(delay, 3))
 
         else:
             await self.chn.send(msg)

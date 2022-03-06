@@ -99,9 +99,9 @@ async def wprompt(ctx: Context):
         elif random.randint(0, 4) == 0:
             await ctx.send(f"Raise your hand if you can relate to this.", 6)
 
-    await ctx.send("Now, are there any volunteers? You have 60 seconds to share. "
-        "Keep in mind that the grading report is coming up, so you may need some participation points.", 60)
-    await readwrite(ctx)
+    if random.randint(0, 3) == 0:
+        await ctx.send("Keep in mind that the grading report is coming up, so you may need some participation points.", 5)
+    await ctx.send("Now, are there any volunteers? You have 60 seconds to share. ", 60)
 
 
 async def start(ctx: Context):
