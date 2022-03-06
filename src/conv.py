@@ -17,6 +17,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import os
 import random
 import discord
 from context import Context
@@ -68,10 +69,19 @@ async def wprompt(ctx: Context):
     quote = random.choice(ctx.json("quotes"))
     exclam = random.choice(ctx.json("exclam"))
 
-    await ctx.send("Please copy down the quote you see. If it gives you any ideas, "
-        "start writing. Otherwise, write about any school appropriate topic.", 1)
-    await ctx.send("I will come around to check your writing prompts from last time.", 2)
-    await ctx.send(f"Quote: **{quote}**", 60)
+    if ctx.voice:
+        path, author, title = ctx.rand_piece()
+        await ctx.send("Our prompt for today will be a section of a piano piece.", 1)
+        await ctx.send(f"The piece we will be listening to is {title} by {author}.", 3)
+        await ctx.play_audio(path)
+        await ctx.send("Think about it. If it gives you any ideas, write about it. Otherwise, "
+            "write about any school appropriate topic.", 1)
+        await ctx.send("I will come around to check your writing prompts from last time.", 2)
+    else:
+        await ctx.send("Please copy down the quote you see. If it gives you any ideas, "
+            "start writing. Otherwise, write about any school appropriate topic.", 1)
+        await ctx.send("I will come around to check your writing prompts from last time.", 2)
+        await ctx.send(f"Quote: **{quote}**", 60)
     await readwrite(ctx)
 
     await ctx.send("You have 30 seconds to share what you wrote about with your "
@@ -97,11 +107,11 @@ async def wprompt(ctx: Context):
 async def start(ctx: Context):
     await ctx.send("BuloneBot: The Bulone experience on Discord.", 4)
 
-    await greetings(ctx)
-    await readwrite(ctx)
-    await schedule(ctx)
-    await readwrite(ctx)
+    #await greetings(ctx)
+    #await readwrite(ctx)
+    #await schedule(ctx)
+    #await readwrite(ctx)
     await wprompt(ctx)
-    await readwrite(ctx)
+    #await readwrite(ctx)
 
     await ctx.send("Done", 1)

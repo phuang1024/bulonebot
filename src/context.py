@@ -18,11 +18,12 @@
 #
 
 import os
+import random
 import json
 import asyncio
 import discord
 from subprocess import DEVNULL, Popen, PIPE
-from typing import Union
+from typing import Tuple, Union
 
 PARENT = os.path.dirname(os.path.realpath(__file__))
 
@@ -65,7 +66,7 @@ class Context:
         await asyncio.sleep(delay)
 
     async def play_audio(self, path):
-        audio = discord.FFmpegPCMAudio(executable="/usr/bin/ffmpeg", source="/tmp/bulone.wav")
+        audio = discord.FFmpegPCMAudio(executable="/usr/bin/ffmpeg", source=path)
         self.voice_conn.play(audio)
         while self.voice_conn.is_playing():
             await asyncio.sleep(0.6)
@@ -74,3 +75,19 @@ class Context:
         path = os.path.join(PARENT, "data", name+".json")
         with open(path, "r") as fp:
             return json.load(fp)
+
+    def rand_piece(self) -> Tuple[str, str, str]:
+        """
+        :return: (path, author, title)
+        """
+        titles = os.listdir(os.path.join(PARENT, "audio"))
+        titles = [t.split(".")[0] for t in titles if t.endswith(".mp3")]
+        piece = random.choice(titles)
+
+        path = os.path.join(PARENT, "audio", piece+".mp3")
+        with open(path+".title", "r") as fp:
+            parts = fp.read().strip().split(":")
+            author = parts[0].strip()
+            title = parts[1].strip()
+
+        return path, author, title
