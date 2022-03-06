@@ -64,12 +64,44 @@ async def schedule(ctx: Context):
         await ctx.send("Summarize in your own words to the people next to you what I just said.", 4)
 
 
+async def wprompt(ctx: Context):
+    quote = random.choice(ctx.json("quotes"))
+    exclam = random.choice(ctx.json("exclam"))
+
+    await ctx.send("Please copy down the quote you see. If it gives you any ideas, "
+        "start writing. Otherwise, write about any school appropriate topic.", 1)
+    await ctx.send("I will come around to check your writing prompts from last time.", 2)
+    await ctx.send(f"Quote: **{quote}**", 60)
+    await readwrite(ctx)
+
+    await ctx.send("You have 30 seconds to share what you wrote about with your "
+        "neighbors. After that, I will call on 3 randoms, and we'll open it up to "
+        "volunteers.", 30)
+    await readwrite(ctx)
+
+    members = [m.name for m in ctx.chn.members if m.status != discord.Status.offline and m.name != "BuloneBot"]
+    n_members = min(len(members), 3)
+    peeps = random.sample(members, n_members)
+    for i, peep in enumerate(peeps):
+        await ctx.send(f"Person {i+1} is **{peep}**. You have 20 seconds to share.", 20)
+        if random.randint(0, 4) == 0:
+            await ctx.send(f"Interesting. Everybody say {random.choice(exclam)}", 6)
+        elif random.randint(0, 4) == 0:
+            await ctx.send(f"Raise your hand if you can relate to this.", 6)
+
+    await ctx.send("Now, are there any volunteers? You have 60 seconds to share. "
+        "Keep in mind that the grading report is coming up, so you may need some participation points.", 60)
+    await readwrite(ctx)
+
+
 async def start(ctx: Context):
     #await ctx.send("BuloneBot: The Bulone experience on Discord.", 4)
 
     #await greetings(ctx)
     #await readwrite(ctx)
-    await schedule(ctx)
+    #await schedule(ctx)
+    #await readwrite(ctx)
+    await wprompt(ctx)
     #await readwrite(ctx)
 
     await ctx.send("Done", 1)
