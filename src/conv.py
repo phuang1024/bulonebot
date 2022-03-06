@@ -69,7 +69,7 @@ async def schedule(ctx: Context):
 
 async def wprompt(ctx: Context):
     quote = random.choice(ctx.json("quotes"))
-    exclam = random.choice(ctx.json("exclam"))
+    exclam = ctx.json("exclam")
 
     if ctx.voice:
         path, author, title = ctx.rand_piece()
