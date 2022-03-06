@@ -22,8 +22,11 @@ import discord
 import conv
 from context import Context
 
-TEXT_ID = 910323880948817970  # bulone/writing-prompt-discussions
-VOICE_ID = 910033905804013612  # bulone/turn-and-talk
+#TEXT_ID = 910323880948817970   # bulone/writing-prompt-discussions
+#VOICE_ID = 910033905804013612  # bulone/turn-and-talk
+
+TEXT_ID = 932788451932242012   # segfault/testing
+VOICE_ID = 949806823114956821  # segfault/voice
 
 intents = discord.Intents.default()
 intents.members = True
