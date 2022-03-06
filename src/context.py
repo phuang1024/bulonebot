@@ -50,7 +50,7 @@ class Context:
     async def send(self, msg: str, delay: float = 0):
         if self.voice:
             msg = msg.replace(":", ",").replace("_", "").replace("*", "")
-            args = ["espeak", "--stdout", "-s", "160"]
+            args = ["espeak", "--stdout", "-s", "170"]
             with open("/tmp/bulone.wav", "wb") as fp:
                 proc = Popen(args, stdin=PIPE, stdout=fp, stderr=DEVNULL)
                 proc.stdin.write(msg.encode())
