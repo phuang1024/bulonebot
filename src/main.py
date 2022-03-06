@@ -22,8 +22,8 @@ import discord
 import conv
 from context import Context
 
-TEXT_ID = 932788451932242012  # segfault/devnull
-VOICE_ID = 949806823114956821  # segfault/test
+TEXT_ID = 910323880948817970  # bulone/writing-prompt-discussions
+VOICE_ID = 910033905804013612  # bulone/turn-and-talk
 
 intents = discord.Intents.default()
 intents.members = True
@@ -34,6 +34,8 @@ client = discord.Client(intents=intents)
 @client.event
 async def on_ready():
     print("Bulone is ready.")
+    print("Text channel:", await client.fetch_channel(TEXT_ID))
+    print("Voice channel:", await client.fetch_channel(VOICE_ID))
 
 @client.event
 async def on_message(msg: discord.Message):
