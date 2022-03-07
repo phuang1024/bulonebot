@@ -42,6 +42,7 @@ async def on_ready():
     print("Bulone is ready.")
     print("Text channel:", await client.fetch_channel(TEXT_ID))
     print("Voice channel:", await client.fetch_channel(VOICE_ID))
+    print("Restricted mode: ", RESTRICTED)
 
     Context().unlock()
 
