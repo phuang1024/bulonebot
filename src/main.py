@@ -17,6 +17,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
 import asyncio
 import discord
 import conv
@@ -27,6 +28,8 @@ from context import Context
 
 TEXT_ID = 932788451932242012   # segfault/testing
 VOICE_ID = 949806823114956821  # segfault/voice
+
+RESTRICTED = True
 
 intents = discord.Intents.default()
 intents.members = True
@@ -46,8 +49,15 @@ async def on_message(msg: discord.Message):
         return
 
     content = msg.content.lower().strip()
-    if content.startswith("bulonebot"):
-        voice = "voice" in content
+    pat_text = re.compile("bulonebot\\( *text *\\)")
+    pat_voice = re.compile("bulonebot\\( *voice *\\)")
+
+    if pat_text.findall(content) or pat_voice.findall(content):
+        if msg.author.display_name != "phuang1024" and RESTRICTED:
+            print(f"Debug: Ignore command from {msg.author.display_name}")
+            return
+
+        voice = bool(pat_voice.findall(content))
         ctx = Context()
         await ctx.init(client, (VOICE_ID if voice else TEXT_ID), voice)
 

@@ -18,7 +18,6 @@
 #
 
 import asyncio
-import os
 import random
 import discord
 from context import Context
