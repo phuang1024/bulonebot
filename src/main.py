@@ -58,6 +58,7 @@ async def on_message(msg: discord.Message):
     if pat_text.findall(content) or pat_voice.findall(content):
         if msg.author.display_name != "phuang1024" and RESTRICTED:
             print(f"Debug: Ignore command from {msg.author.display_name}")
+            await msg.channel.send("You don't have permissions to use this command. Try `sudo`.")
             return
 
         voice = bool(pat_voice.findall(content))
