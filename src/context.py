@@ -43,6 +43,20 @@ class Context:
         else:
             assert isinstance(self.chn, discord.TextChannel)
 
+    def locked(self):
+        path = os.path.join(PARENT, "lock")
+        return os.path.isfile(path)
+
+    def lock(self):
+        path = os.path.join(PARENT, "lock")
+        with open(path, "w") as fp:
+            pass
+
+    def unlock(self):
+        path = os.path.join(PARENT, "lock")
+        if os.path.isfile(path):
+            os.remove(path)
+
     async def close(self):
         if self.voice:
             await self.voice_conn.disconnect()

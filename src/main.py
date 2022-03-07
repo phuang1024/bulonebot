@@ -43,6 +43,8 @@ async def on_ready():
     print("Text channel:", await client.fetch_channel(TEXT_ID))
     print("Voice channel:", await client.fetch_channel(VOICE_ID))
 
+    Context().unlock()
+
 @client.event
 async def on_message(msg: discord.Message):
     if msg.author == client.user:
@@ -59,12 +61,18 @@ async def on_message(msg: discord.Message):
 
         voice = bool(pat_voice.findall(content))
         ctx = Context()
+        if ctx.locked():
+            await msg.channel.send("Already buloning. Please try again later or contact phuang1024.")
+            return
+        ctx.lock()
+
         await ctx.init(client, (VOICE_ID if voice else TEXT_ID), voice)
 
         await msg.channel.send("Starting Bulone on " + ("voice" if voice else "text"))
         await asyncio.sleep(4)
         await conv.start(ctx)
         await ctx.close()
+        ctx.unlock()
 
 
 with open("token.txt", "r") as fp:
