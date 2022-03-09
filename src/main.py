@@ -39,10 +39,15 @@ client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
+    text = await client.fetch_channel(TEXT_ID)
+    voice = await client.fetch_channel(VOICE_ID)
+    assert isinstance(text, discord.TextChannel)
+    assert isinstance(voice, discord.VoiceChannel)
+
     print("Bulone is ready.")
-    print("Text channel:", await client.fetch_channel(TEXT_ID))
-    print("Voice channel:", await client.fetch_channel(VOICE_ID))
-    print("Restricted mode: ", RESTRICTED)
+    print("Restricted mode:", RESTRICTED)
+    print(f"Text channel:  \"{text.guild}\" / \"{text}\"")
+    print(f"Voice channel: \"{voice.guild}\" / \"{voice}\"")
 
     Context().unlock()
 
@@ -52,21 +57,23 @@ async def on_message(msg: discord.Message):
         return
 
     content = msg.content.lower().strip()
-    pat_text = re.compile("bulonebot\\( *text *\\)")
-    pat_voice = re.compile("bulonebot\\( *voice *\\)")
+    pat_text = re.compile(r"bulonebot *\( *text *\)")
+    pat_voice = re.compile(r"bulonebot *\( *voice *\)")
 
     if pat_text.findall(content) or pat_voice.findall(content):
         if msg.author.display_name != "phuang1024" and RESTRICTED:
-            print(f"Debug: Ignore command from {msg.author.display_name}")
+            print(f"Ignore command from {msg.author.display_name}")
             await msg.channel.send("You don't have permissions to use this command. Try `sudo`.")
             return
 
         voice = bool(pat_voice.findall(content))
         ctx = Context()
         if ctx.locked():
+            print(f"Ignore command from {msg.author.display_name}")
             await msg.channel.send("Already buloning. Please try again later or contact phuang1024.")
             return
         ctx.lock()
+        print("Starting Bulone, voice:", voice)
 
         await ctx.init(client, (VOICE_ID if voice else TEXT_ID), voice)
 
