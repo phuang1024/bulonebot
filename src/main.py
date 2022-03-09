@@ -17,6 +17,7 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import random
 import re
 import asyncio
 import discord
@@ -67,7 +68,7 @@ async def on_ready():
     print(f"Text channel:  \"{text.guild}\" / \"{text}\"")
     print(f"Voice channel: \"{voice.guild}\" / \"{voice}\"")
 
-    Context().unlock()
+    Context.unlock()
 
 @client.event
 async def on_message(msg: discord.Message):
@@ -91,7 +92,7 @@ async def on_message(msg: discord.Message):
             text += "bulonebot(about):  About BuloneBot.\n"
             text += "bulonebot(text):   Start Bulone in a text channel.\n"
             text += "bulonebot(voice):  Start Bulone in a voice channel.\n"
-            text += "bulonebot(math):   Help about math.\n"
+            text += "bulonebot(math):   Help about any math problem.\n"
             text += "```"
             await msg.channel.send(text)
 
@@ -109,7 +110,8 @@ async def on_message(msg: discord.Message):
             await start_bulone(msg, arg == "voice")
 
         elif arg == "math":
-            await msg.channel.send("Try dividing both sides by 0.")
+            tip = random.choice(Context.json("math"))
+            await msg.channel.send(tip)
 
         else:
             await msg.channel.send(f"Unknown command. Try `bulonebot(help)` for more info.")

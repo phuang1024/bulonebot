@@ -43,16 +43,19 @@ class Context:
         else:
             assert isinstance(self.chn, discord.TextChannel)
 
-    def locked(self):
+    @staticmethod
+    def locked():
         path = os.path.join(PARENT, "lock")
         return os.path.isfile(path)
 
-    def lock(self):
+    @staticmethod
+    def lock():
         path = os.path.join(PARENT, "lock")
         with open(path, "w") as fp:
             pass
 
-    def unlock(self):
+    @staticmethod
+    def unlock():
         path = os.path.join(PARENT, "lock")
         if os.path.isfile(path):
             os.remove(path)
@@ -85,12 +88,14 @@ class Context:
         while self.voice_conn.is_playing():
             await asyncio.sleep(0.6)
 
-    def json(self, name):
+    @staticmethod
+    def json(name):
         path = os.path.join(PARENT, "data", name+".json")
         with open(path, "r") as fp:
             return json.load(fp)
 
-    def rand_piece(self) -> Tuple[str, str, str]:
+    @staticmethod
+    def rand_piece() -> Tuple[str, str, str]:
         """
         :return: (path, author, title)
         """

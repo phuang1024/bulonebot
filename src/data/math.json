@@ -1,0 +1,11 @@
+[
+    "Try dividing both sides by 0.",
+    "Try turning it off and on again.",
+    "Try changing the variable names.",
+    "Try with the `-Werror` flag.",
+    "Ask Mr. Bulone.",
+    "Try using a different language.",
+    "There is a bug in Math v2.3.1. Try v2.0.0.",
+    "Try using a program to do the calculations for you.",
+    "If you have trouble with linear algebra, use numpy."
+]
