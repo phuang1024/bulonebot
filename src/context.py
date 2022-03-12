@@ -43,23 +43,6 @@ class Context:
         else:
             assert isinstance(self.chn, discord.TextChannel)
 
-    @staticmethod
-    def locked():
-        path = os.path.join(PARENT, "lock")
-        return os.path.isfile(path)
-
-    @staticmethod
-    def lock():
-        path = os.path.join(PARENT, "lock")
-        with open(path, "w") as fp:
-            pass
-
-    @staticmethod
-    def unlock():
-        path = os.path.join(PARENT, "lock")
-        if os.path.isfile(path):
-            os.remove(path)
-
     async def close(self):
         if self.voice:
             await self.voice_conn.disconnect()
@@ -87,6 +70,23 @@ class Context:
         self.voice_conn.play(audio)
         while self.voice_conn.is_playing():
             await asyncio.sleep(0.6)
+
+    @staticmethod
+    def locked():
+        path = os.path.join(PARENT, "lock")
+        return os.path.isfile(path)
+
+    @staticmethod
+    def lock():
+        path = os.path.join(PARENT, "lock")
+        with open(path, "w") as fp:
+            pass
+
+    @staticmethod
+    def unlock():
+        path = os.path.join(PARENT, "lock")
+        if os.path.isfile(path):
+            os.remove(path)
 
     @staticmethod
     def json(name):
