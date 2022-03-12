@@ -103,7 +103,7 @@ async def on_message(msg: discord.Message):
         elif arg in ("text", "voice"):
             if msg.author.display_name != "phuang1024" and RESTRICTED:
                 print(f"Ignore command from {msg.author.display_name}")
-                await msg.channel.send("You don't have permissions to use this command. Try `sudo`.\n"
+                await msg.channel.send("You don't have permission to use this command. Try `sudo`.\n"
                     "This is most likely because the bot is disabled for testing.")
                 return
 
