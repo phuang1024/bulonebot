@@ -76,7 +76,7 @@ async def on_message(msg: discord.Message):
         return
 
     content = msg.content.lower().strip()
-    pat_cmd = re.compile(r"bulonebot *\(.*?\)")
+    pat_cmd = re.compile(r"(bulonebot|bb) *\(.*?\)")
     pat_arg = re.compile(r"\(.*?\)")
 
     if pat_cmd.findall(content):
@@ -88,12 +88,16 @@ async def on_message(msg: discord.Message):
 
         elif arg == "help":
             text = "```\n"
-            text += "bulonebot(help):   Show this help message.\n"
-            text += "bulonebot(about):  About BuloneBot.\n"
-            text += "bulonebot(text):   Start Bulone in a text channel.\n"
-            text += "bulonebot(voice):  Start Bulone in a voice channel.\n"
-            text += "bulonebot(talk):   Say something that Bulone says.\n"
-            text += "bulonebot(math):   Help about any math problem.\n"
+            text += "Bulone Discord bot.\n"
+            text += "Usage:\n"
+            text += "  bulonebot(arg) or bb(arg)\n"
+            text += "Arguments:\n"
+            text += "  help:   Show this help message.\n"
+            text += "  about:  About BuloneBot.\n"
+            text += "  text:   Start Bulone in a text channel.\n"
+            text += "  voice:  Start Bulone in a voice channel.\n"
+            text += "  talk:   Say something that Bulone says.\n"
+            text += "  math:   Help about any math problem.\n"
             text += "```"
             await msg.channel.send(text)
 

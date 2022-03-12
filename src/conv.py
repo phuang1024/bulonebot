@@ -61,7 +61,7 @@ async def schedule(ctx: Context):
 
     check = random.choice((
         "Nod your head if you understand.",
-        "Put your thumb next to your head if you understand.",
+        "Put a thumbs up next to your head if you understand.",
         "Summarize in your own words to the people next to you what I just said.",
         "Are there any questions?",
     ))
