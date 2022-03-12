@@ -50,7 +50,6 @@ async def start_bulone(msg, voice):
     await ctx.init(client, (VOICE_ID if voice else TEXT_ID), voice)
 
     await msg.channel.send("Starting Bulone on " + ("voice" if voice else "text"))
-    await asyncio.sleep(4)
     await conv.start(ctx)
     await ctx.close()
     ctx.unlock()

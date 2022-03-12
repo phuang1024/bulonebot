@@ -47,7 +47,7 @@ class Context:
         if self.voice:
             await self.voice_conn.disconnect()
 
-    async def send(self, msg: str, delay: float = 0):
+    async def send(self, msg: str, delay: float = 1):
         if self.voice:
             msg = msg.replace(":", ",").replace("_", "").replace("*", "")
             args = ["espeak", "--stdout", "-s", "170"]

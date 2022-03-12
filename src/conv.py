@@ -27,9 +27,9 @@ async def readwrite(ctx: Context):
     await ctx.send("Read and", 3)
     if random.randint(0, 3) == 3:
         await ctx.send("Let's try that again. Remember, it needs to be like the breaks on a car. "
-            "If they don't work, the car will crash, just like your Java program.", 2)
+            "If they don't work, the car will crash, just like your Java program.")
         await ctx.send("Read and", 3)
-    await ctx.send("Write", 4)
+    await ctx.send("Write", 2)
 
 
 async def greetings(ctx: Context):
@@ -40,7 +40,7 @@ async def greetings(ctx: Context):
             await ctx.send(f"{greet} {mem.name}", random.uniform(1, 3))
 
     for i in range(3):
-        await ctx.send(f"Line {i+1}, come on in.", random.uniform(1, 3))
+        await ctx.send(f"Line {i+1}, come on in.", random.uniform(2, 4))
 
 
 async def schedule(ctx: Context):
@@ -65,7 +65,7 @@ async def schedule(ctx: Context):
         "Summarize in your own words to the people next to you what I just said.",
         "Are there any questions?",
     ))
-    await ctx.send(check, 1)
+    await ctx.send(check)
     await asyncio.sleep(4)
 
 
@@ -75,24 +75,24 @@ async def wprompt(ctx: Context):
 
     if ctx.voice:
         path, author, title = ctx.rand_piece()
-        await ctx.send("Our prompt for today will be a section of a piano piece.", 1)
+        await ctx.send("Our prompt for today will be a section of a piano piece.")
         await ctx.send(f"The piece we will be listening to is {title} by {author}.", 3)
         await ctx.play_audio(path)
         await ctx.send("Think about it. If it gives you any ideas, write about it. Otherwise, "
-            "write about any school appropriate topic.", 1)
+            "write about any school appropriate topic.")
     else:
         await ctx.send("Please copy down the quote you see. If it gives you any ideas, "
-            "start writing. Otherwise, write about any school appropriate topic.", 1)
-    await ctx.send("I will come around to check your writing prompts from last time.", 1)
-    await ctx.send("Good luck and happy writing.", 1)
+            "start writing. Otherwise, write about any school appropriate topic.")
+    await ctx.send("I will come around to check your writing prompts from last time.")
+    await ctx.send("Good luck and happy writing.")
     if not ctx.voice:
-        await ctx.send(f"Quote: **{quote}**", 1)
+        await ctx.send(f"Quote: **{quote}**")
     await asyncio.sleep(45)
     await readwrite(ctx)
 
     await ctx.send("You have 30 seconds to share what you wrote about with your "
         "neighbors. After that, I will call on 3 randoms, and we'll open it up to "
-        "volunteers.", 3)
+        "volunteers.")
     await asyncio.sleep(30)
     await readwrite(ctx)
 
@@ -100,21 +100,21 @@ async def wprompt(ctx: Context):
     n_members = min(len(members), 3)
     peeps = random.sample(members, n_members)
     for i, peep in enumerate(peeps):
-        await ctx.send(f"Person {i+1} is **{peep}**. You have 20 seconds to share.", 2)
+        await ctx.send(f"Person {i+1} is **{peep}**. You have 20 seconds to share.")
         await asyncio.sleep(20)
         if random.randint(0, 4) == 0:
-            await ctx.send(f"Interesting. Everybody say {random.choice(exclam)}", 6)
+            await ctx.send(f"Interesting. Everybody say {random.choice(exclam)}", 4)
         elif random.randint(0, 4) == 0:
-            await ctx.send(f"Raise your hand if you can relate to this.", 6)
+            await ctx.send(f"Raise your hand if you can relate to this.", 4)
 
     if random.randint(0, 3) == 0:
         await ctx.send("Keep in mind that the grading report is coming up, so you may need some participation points.", 5)
-    await ctx.send("Now, are there any volunteers? You have 60 seconds to share. ", 2)
+    await ctx.send("Now, are there any volunteers? You have 45 seconds to share. ", 2)
     await asyncio.sleep(45)
 
 
 async def start(ctx: Context):
-    await ctx.send("BuloneBot: The Bulone experience on Discord.", 4)
+    await ctx.send("BuloneBot: The Bulone experience on Discord.")
 
     await greetings(ctx)
     await readwrite(ctx)
@@ -123,4 +123,4 @@ async def start(ctx: Context):
     await wprompt(ctx)
     await readwrite(ctx)
 
-    await ctx.send("Done", 1)
+    await ctx.send("Done")
