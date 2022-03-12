@@ -24,13 +24,13 @@ import discord
 import conv
 from context import Context
 
-#TEXT_ID = 910323880948817970   # bulone/writing-prompt-discussions
-#VOICE_ID = 910033905804013612  # bulone/turn-and-talk
-
+# Channel IDs for buloning, not responding.
+TEXT_ID = 910323880948817970   # bulone/writing-prompt-discussions
+VOICE_ID = 910033905804013612  # bulone/turn-and-talk
 TEXT_ID = 932788451932242012   # segfault/testing
 VOICE_ID = 949806823114956821  # segfault/voice
 
-RESTRICTED = True
+RESTRICTED = True  # Allow others to start bulone.
 
 intents = discord.Intents.default()
 intents.members = True
@@ -92,6 +92,7 @@ async def on_message(msg: discord.Message):
             text += "bulonebot(about):  About BuloneBot.\n"
             text += "bulonebot(text):   Start Bulone in a text channel.\n"
             text += "bulonebot(voice):  Start Bulone in a voice channel.\n"
+            text += "bulonebot(talk):   Say something that Bulone says.\n"
             text += "bulonebot(math):   Help about any math problem.\n"
             text += "```"
             await msg.channel.send(text)
@@ -108,6 +109,10 @@ async def on_message(msg: discord.Message):
                 return
 
             await start_bulone(msg, arg == "voice")
+
+        elif arg == "talk":
+            phrase = random.choice(Context.json("phrases"))
+            await msg.channel.send(phrase)
 
         elif arg == "math":
             tip = random.choice(Context.json("math"))

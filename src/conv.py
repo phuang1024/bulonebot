@@ -59,10 +59,13 @@ async def schedule(ctx: Context):
         hw += "* " + h + "\n"
     await ctx.send(hw, 12)
 
-    if random.randint(0, 1) == 0:
-        await ctx.send("Nod your head if you understand.", 2)
-    else:
-        await ctx.send("Summarize in your own words to the people next to you what I just said.", 2)
+    check = random.choice((
+        "Nod your head if you understand.",
+        "Put your thumb next to your head if you understand.",
+        "Summarize in your own words to the people next to you what I just said.",
+        "Are there any questions?",
+    ))
+    await ctx.send(check, 1)
     await asyncio.sleep(4)
 
 
@@ -77,13 +80,14 @@ async def wprompt(ctx: Context):
         await ctx.play_audio(path)
         await ctx.send("Think about it. If it gives you any ideas, write about it. Otherwise, "
             "write about any school appropriate topic.", 1)
-        await ctx.send("I will come around to check your writing prompts from last time.", 2)
-        await asyncio.sleep(45)
     else:
         await ctx.send("Please copy down the quote you see. If it gives you any ideas, "
             "start writing. Otherwise, write about any school appropriate topic.", 1)
-        await ctx.send("I will come around to check your writing prompts from last time.", 2)
-        await ctx.send(f"Quote: **{quote}**", 45)
+    await ctx.send("I will come around to check your writing prompts from last time.", 1)
+    await ctx.send("Good luck and happy writing.", 1)
+    if not ctx.voice:
+        await ctx.send(f"Quote: **{quote}**", 1)
+    await asyncio.sleep(45)
     await readwrite(ctx)
 
     await ctx.send("You have 30 seconds to share what you wrote about with your "
