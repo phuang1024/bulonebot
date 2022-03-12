@@ -126,5 +126,10 @@ async def on_message(msg: discord.Message):
             await msg.channel.send(f"Unknown command. Try `bulonebot(help)` for more info.")
 
 
-with open("token.txt", "r") as fp:
-    client.run(fp.read().strip())
+def main():
+    with open("token.txt", "r") as fp:
+        client.run(fp.read().strip())
+
+
+if __name__ == "__main__":
+    main()
