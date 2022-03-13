@@ -19,9 +19,9 @@
 
 import random
 import re
-import asyncio
 import discord
 import conv
+import logger
 from context import Context
 
 # Channel IDs for buloning, not responding.
@@ -41,11 +41,11 @@ client = discord.Client(intents=intents)
 async def start_bulone(msg, voice):
     ctx = Context()
     if ctx.locked():
-        print(f"Ignore command from {msg.author.display_name}")
+        logger.warn(f"{msg.author} tried to start bulone while locked.")
         await msg.channel.send("Already buloning. Please try again later or contact phuang1024.")
         return
     ctx.lock()
-    print("Starting Bulone, voice:", voice)
+    logger.info(f"{msg.author} started bulone, voice={voice}")
 
     await ctx.init(client, (VOICE_ID if voice else TEXT_ID), voice)
 
@@ -62,10 +62,10 @@ async def on_ready():
     assert isinstance(text, discord.TextChannel)
     assert isinstance(voice, discord.VoiceChannel)
 
-    print("Bulone is ready.")
-    print("Restricted mode:", RESTRICTED)
-    print(f"Text channel:  \"{text.guild}\" / \"{text}\"")
-    print(f"Voice channel: \"{voice.guild}\" / \"{voice}\"")
+    logger.info(f"BuloneBot is ready.")
+    logger.info(f"Restricted mode: {RESTRICTED}")
+    logger.info(f"Text channel:  \"{text.guild}\" / \"{text}\"")
+    logger.info(f"Voice channel: \"{voice.guild}\" / \"{voice}\"")
 
     Context.unlock()
 
@@ -81,6 +81,7 @@ async def on_message(msg: discord.Message):
     if pat_cmd.findall(content):
         find = pat_arg.findall(content)
         arg = find[0][1:-1].strip() if find else ""
+        logger.info(f"{msg.author} sent command: \"{arg}\"")
 
         if arg == "":
             await msg.channel.send(f"Hello {msg.author.display_name}. Try `bulonebot(help)` for more info.")
@@ -106,7 +107,7 @@ async def on_message(msg: discord.Message):
 
         elif arg in ("text", "voice"):
             if msg.author.display_name != "phuang1024" and RESTRICTED:
-                print(f"Ignore command from {msg.author.display_name}")
+                logger.warn(f"{msg.author} tried to start bulone when restricted.")
                 await msg.channel.send("You don't have permission to use this command. Try `sudo`.\n"
                     "This is most likely because the bot is disabled for testing.")
                 return

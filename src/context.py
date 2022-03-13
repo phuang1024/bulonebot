@@ -66,7 +66,7 @@ class Context:
             await asyncio.sleep(delay)
 
     async def play_audio(self, path):
-        audio = discord.FFmpegPCMAudio(executable="/usr/bin/ffmpeg", source=path)
+        audio = discord.FFmpegPCMAudio(executable="/usr/bin/ffmpeg", source=path, stderr=DEVNULL)
         self.voice_conn.play(audio)
         while self.voice_conn.is_playing():
             await asyncio.sleep(0.6)
