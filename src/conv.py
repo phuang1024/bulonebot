@@ -21,7 +21,11 @@ import asyncio
 import random
 import discord
 from context import Context
+from typing import Union
 
+
+def active_members(chn: Union[discord.TextChannel, discord.VoiceChannel]):
+    return [m for m in chn.members if m.status != discord.Status.offline and m.name != "BuloneBot"]
 
 async def readwrite(ctx: Context):
     await ctx.send("Read and", 3)
@@ -33,11 +37,11 @@ async def readwrite(ctx: Context):
 
 
 async def greetings(ctx: Context):
-    await ctx.send("Hi everyone. Please form three straight lines in front of the door.", 8)
-    for mem in ctx.chn.members:
-        if mem.status != discord.Status.offline and mem.name != "BuloneBot":
-            greet = random.choice(ctx.json("greetings"))
-            await ctx.send(f"{greet} {mem.name}", random.uniform(1, 3))
+    await ctx.send("Hi everyone. Please form three straight lines in front of the door.")
+    await asyncio.sleep(6)
+    for mem in active_members(ctx.chn):
+        greet = random.choice(ctx.json("greetings"))
+        await ctx.send(f"{greet} {mem.name}", random.uniform(1, 3))
 
     for i in range(3):
         await ctx.send(f"Line {i+1}, come on in.", random.uniform(2, 4))
@@ -78,11 +82,10 @@ async def wprompt(ctx: Context):
         await ctx.send("Our prompt for today will be a section of a piano piece.")
         await ctx.send(f"The piece we will be listening to is {title} by {author}.", 3)
         await ctx.play_audio(path)
-        await ctx.send("Think about it. If it gives you any ideas, write about it. Otherwise, "
-            "write about any school appropriate topic.")
+        await ctx.send("Think about it.")
     else:
-        await ctx.send("Please copy down the quote you see. If it gives you any ideas, "
-            "start writing. Otherwise, write about any school appropriate topic.")
+        await ctx.send("Please copy down the quote you see.")
+    await ctx.send("If it gives you any ideas, start writing. Otherwise, write about any school appropriate topic.")
     await ctx.send("I will come around to check your writing prompts from last time.")
     await ctx.send("Good luck and happy writing.")
     if not ctx.voice:
@@ -96,7 +99,7 @@ async def wprompt(ctx: Context):
     await asyncio.sleep(30)
     await readwrite(ctx)
 
-    members = [m.name for m in ctx.chn.members if m.status != discord.Status.offline and m.name != "BuloneBot"]
+    members = active_members(ctx.chn)
     n_members = min(len(members), 3)
     peeps = random.sample(members, n_members)
     for i, peep in enumerate(peeps):
