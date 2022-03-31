@@ -62,10 +62,10 @@ async def on_ready():
     assert isinstance(text, discord.TextChannel)
     assert isinstance(voice, discord.VoiceChannel)
 
-    logger.info(f"BuloneBot is ready.")
-    logger.info(f"Restricted mode: {RESTRICTED}")
-    logger.info(f"Text channel:  \"{text.guild}\" / \"{text}\"")
-    logger.info(f"Voice channel: \"{voice.guild}\" / \"{voice}\"")
+    logger.debug(f"BuloneBot is ready.")
+    logger.debug(f"Restricted mode: {RESTRICTED}")
+    logger.debug(f"Text channel:  \"{text.guild}\" / \"{text}\"")
+    logger.debug(f"Voice channel: \"{voice.guild}\" / \"{voice}\"")
 
     Context.unlock()
 

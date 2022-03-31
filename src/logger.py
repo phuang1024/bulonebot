@@ -28,3 +28,6 @@ def warn(msg):
 
 def error(msg):
     print(termcolor.colored("ERROR: "+msg, "red"))
+
+def debug(msg):
+    print(termcolor.colored("DEBUG: "+msg, "white", attrs={"dark"}))
