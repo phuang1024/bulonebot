@@ -91,8 +91,10 @@ async def wprompt(ctx: Context):
     if not ctx.voice:
         await ctx.send(f"Quote: **{quote}**")
     await asyncio.sleep(45)
-    await readwrite(ctx)
 
+    await ctx.send("Please finish the sentence you are writing.")
+    await asyncio.sleep(3)
+    await readwrite(ctx)
     await ctx.send("You have 30 seconds to share what you wrote about with your "
         "neighbors. After that, I will call on 3 randoms, and we'll open it up to "
         "volunteers.")
