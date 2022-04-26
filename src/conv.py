@@ -86,7 +86,7 @@ async def wprompt(ctx: Context):
     else:
         await ctx.send("Please copy down the quote you see.")
     await ctx.send("If it gives you any ideas, start writing. Otherwise, write about any school appropriate topic.")
-    await ctx.send("I will come around to check your writing prompts from last time.")
+    await ctx.send("I will come around to **stamp** your writing prompts from last time.")
     await ctx.send("Good luck and happy writing.")
     if not ctx.voice:
         await ctx.send(f"Quote: **{quote}**")
