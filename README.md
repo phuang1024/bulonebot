@@ -1,6 +1,6 @@
 # Bulonebot
 
-Mr. Bulone is the best english teacher. Why?
+Mr. Bulone is a great english teacher. Why?
 
 - Explains everything clearly.
 - Gives students a lot of freedom, which causes them to learn more.
