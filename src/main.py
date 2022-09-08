@@ -35,6 +35,7 @@ RESTRICTED = True  # Allow others to start bulone.
 intents = discord.Intents.default()
 intents.members = True
 intents.presences = True
+intents.message_content = True
 client = discord.Client(intents=intents)
 
 
